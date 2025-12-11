@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Barisan & Deret Aritmatika</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #ba00f3;
+            color: #333;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: rgb(203, 8, 221);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #7a00b3;
+        }
+        .menu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .menu-table th, .menu-table td {
+            border: 1px solid #a100e0;
+            padding: 10px;
+        }
+        .menu-table th {
+            background-color: #d607f1;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            white-space: pre-wrap; /* Penting untuk menampilkan format teks seperti di Python */
+        }
+        #calculator {
+            border-top: 2px solid #ccc;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Kalkulator Barisan & Deret Aritmatika</h2>
+
+    <table class="menu-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Menu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Barisan Aritmatika (Un = a + (n-1)b)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Mencari a dan b dari dua suku yang diketahui</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Deret Aritmatika (Sn = n/2(2a + (n-1)b))</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="input-group">
+        <label for="pilih">Pilih menu :</label>
+        <input type="number" id="pilih" min="1" max="3" placeholder="Masukkan 1, 2, atau 3">
+        <button onclick="showCalculator()">Pilih</button>
+    </div>
+
+    <div id="calculator" class="hidden">
+        <div id="aritmatika1" class="hidden">
+            <h3>Barisan Aritmatika</h3>
+            <div class="input-group"><label for="u1_n">Masukan Suku ke-n (Un):</label><input type="number" id="u1_n" value="5"></div>
+            <div class="input-group"><label for="u1_a">Masukan Suku Pertama (a):</label><input type="number" id="u1_a" value="2"></div>
+            <div class="input-group"><label for="u1_b">Masukan Bedanya (b):</label><input type="number" id="u1_b" value="3"></div>
+            <button onclick="aritmatika1()">Hitung</button>
+        </div>
+
+        <div id="aritmatika2" class="hidden">
+            <h3>Mencari Suku dari Dua Suku yang Diketahui</h3>
+            <div class="input-group"><label for="u2_info1">Suku ke-n pertama (misal 3 untuk U3):</label><input type="number" id="u2_info1" value="3"></div>
+            <div class="input-group"><label for="u2_hasil1">Nilai U<span id="label_u2_1">3</span>:</label><input type="number" id="u2_hasil1" value="8"></div>
+            <div class="input-group"><label for="u2_info2">Suku ke-n kedua (misal 5 untuk U5):</label><input type="number" id="u2_info2" value="5"></div>
+            <div class="input-group"><label for="u2_hasil2">Nilai U<span id="label_u2_2">5</span>:</label><input type="number" id="u2_hasil2" value="14"></div>
+            <div class="input-group"><label for="u2_suku_akhir">Tentukan Suku ke-? (misal 10):</label><input type="number" id="u2_suku_akhir" value="10"></div>
+            <button onclick="aritmatika2()">Hitung</button>
+        </div>
+
+        <div id="aritmatika3" class="hidden">
+            <h3>Deret Aritmatika (Jumlah n Suku Pertama)</h3>
+            <div class="input-group"><label for="s3_sn">Tentukan jumlah n suku pertama (Sn):</label><input type="number" id="s3_sn" value="5"></div>
+            <div class="input-group"><label for="s3_a">Masukan suku pertama (a):</label><input type="number" id="s3_a" value="2"></div>
+            <div class="input-group"><label for="s3_b">Masukan beda (b):</label><input type="number" id="s3_b" value="3"></div>
+            <button onclick="aritmatika3()">Hitung</button>
+        </div>
+
+        <div class="input-group" style="margin-top: 20px;">
+            <button onclick="resetMenu()">Kembali ke Menu</button>
+        </div>
+    </div>
+
+    <div class="result" id="result">Hasil Perhitungan akan ditampilkan di sini.</div>
+</div>
+
+<script>
+    // --- Global Variables ---
+    const calculatorDiv = document.getElementById('calculator');
+    const resultDiv = document.getElementById('result');
+    const pilihInput = document.getElementById('pilih');
+    const menuDivs = {
+        '1': document.getElementById('aritmatika1'),
+        '2': document.getElementById('aritmatika2'),
+        '3': document.getElementById('aritmatika3')
+    };
+
+    // --- Helper Functions ---
+
+    /**
+     * Menampilkan menu kalkulator yang dipilih dan menyembunyikan yang lain.
+     */
+    function showCalculator() {
+        const pilih = pilihInput.value.trim();
+        resultDiv.textContent = "Hasil Perhitungan akan ditampilkan di sini.";
+
+        // Hide all calculator divs
+        Object.values(menuDivs).forEach(div => div.classList.add('hidden'));
+
+        if (pilih in menuDivs) {
+            calculatorDiv.classList.remove('hidden');
+            menuDivs[pilih].classList.remove('hidden');
+            document.getElementById('pilih').disabled = true; // Disable input after selection
+        } else {
+            calculatorDiv.classList.add('hidden');
+            resultDiv.textContent = "Menu tidak ada. Silakan masukkan 1, 2, atau 3.";
+            document.getElementById('pilih').disabled = false;
+        }
+    }
+
+    /**
+     * Mengembalikan tampilan ke menu utama.
+     */
+    function resetMenu() {
+        calculatorDiv.classList.add('hidden');
+        pilihInput.value = '';
+        document.getElementById('pilih').disabled = false;
+        resultDiv.textContent = "Hasil Perhitungan akan ditampilkan di sini.";
+        // Hide all calculator divs again
+        Object.values(menuDivs).forEach(div => div.classList.add('hidden'));
+    }
+
+    // --- Calculator Functions (Replicating Python Logic) ---
+
+    // Menu 1: Barisan Aritmatika (Un = a + (n-1)b)
+    function aritmatika1() {
+        const Un = parseInt(document.getElementById('u1_n').value);
+        const a = parseInt(document.getElementById('u1_a').value);
+        const b = parseInt(document.getElementById('u1_b').value);
+
+        if (isNaN(Un) || isNaN(a) || isNaN(b)) {
+            resultDiv.textContent = "Mohon masukkan semua nilai untuk Barisan Aritmatika.";
+            return;
+        }
+
+        const hasilakhir = a + (Un - 1) * b;
+
+        let output = "Barisan Aritmatika\n";
+        output += "-------------------------------------\n";
+        output += `Un = a + (n-1)b\n`;
+        output += `U${Un} = ${a} + (${Un}-1)${b}\n`;
+        output += `U${Un} = ${a} + ${Un - 1}.${b}\n`;
+        output += `U${Un} = ${a} + ${(Un - 1) * b}\n`;
+        output += `U${Un} = ${hasilakhir}\n`;
+
+        resultDiv.textContent = output;
+    }
+
+    // Menu 2: Jika info suku hanya 2
+    function aritmatika2() {
+        const info1 = parseInt(document.getElementById('u2_info1').value);
+        const hasil1 = parseInt(document.getElementById('u2_hasil1').value);
+        const info2 = parseInt(document.getElementById('u2_info2').value);
+        const hasil2 = parseInt(document.getElementById('u2_hasil2').value);
+        const sukuAkhir = parseInt(document.getElementById('u2_suku_akhir').value);
+
+        if (isNaN(info1) || isNaN(hasil1) || isNaN(info2) || isNaN(hasil2) || isNaN(sukuAkhir)) {
+            resultDiv.textContent = "Mohon masukkan semua nilai untuk Mencari Suku dari Dua Suku yang Diketahui.";
+            return;
+        }
+
+        if (info1 === info2) {
+            resultDiv.textContent = "Suku ke-n pertama dan kedua harus berbeda.";
+            return;
+        }
+
+        // Replicate Python logic
+        let output = "------------------------------\n";
+        output += `U${info1} = ${hasil1}\n`;
+        output += `a + ${info1}-1 = ${hasil1}\n`;
+        output += `a + ${info1 - 1}b = ${hasil1}  ...(Persamaan 1)\n`;
+        output += "\n";
+        output += `U${info2} = ${hasil2}\n`;
+        output += `a + ${info2}-1 = ${hasil2}\n`;
+        output += `a + ${info2 - 1}b = ${hasil2}  ...(Persamaan 2)\n`;
+        output += "\n";
+
+        output += "Mencari Nilai b............(Metode eliminasi)\n";
+        output += "\n";
+        output += `  a + ${info2 - 1}b = ${hasil2}\n`;
+        output += `  a + ${info1 - 1}b = ${hasil1}\n`;
+
+        // Calculate b
+        const diffN = (info2 - 1) - (info1 - 1);
+        const diffU = hasil2 - hasil1;
+        const nilaib = diffU / diffN;
+
+        output += `  __________________--\n`;
+        output += `    ${diffN}b = ${diffU}\n`;
+        output += `      b = ${diffU} / ${diffN}\n`;
+        output += `      b = ${nilaib}\n`;
+        output += "\n";
+
+        output += "mencari nilai a............(Metode Substitusi)\n";
+        output += `a + ${info1 - 1}b = ${hasil1}\n`;
+        output += `a + ${info1 - 1}.${nilaib} = ${hasil1}\n`;
+        const termB = (info1 - 1) * nilaib;
+        output += ` a + ${termB} = ${hasil1}\n`;
+        const nilaia = hasil1 - termB;
+        output += `     a = ${hasil1} - ${termB}\n`;
+        output += `     a = ${nilaia}\n`;
+        output += "\n";
+
+        // Calculate final suku
+        const hasilakhir1 = sukuAkhir - 1;
+        const hasilAkhirU = nilaia + hasilakhir1 * nilaib;
+
+        output += `Tentukan Suku ke-${sukuAkhir} (U${sukuAkhir}):\n`;
+        output += `Un = a + (n - 1) b\n`;
+        output += `${nilaia} + (${sukuAkhir} - 1 ).${nilaib}\n`;
+        output += `${nilaia} + (${hasilakhir1}).${nilaib}\n`;
+        output += `${nilaia} + ${hasilakhir1 * nilaib}\n`;
+        output += `${hasilAkhirU}\n`;
+        output += "\n";
+        output += `Maka suku ke -${sukuAkhir} adalah ${hasilAkhirU}\n`;
+
+        resultDiv.textContent = output;
+    }
+
+    // Menu 3: Deret Aritmatika (Sn = n/2(2a + (n-1)b))
+    function aritmatika3() {
+        const Sn = parseInt(document.getElementById('s3_sn').value);
+        const a = parseInt(document.getElementById('s3_a').value);
+        const b = parseInt(document.getElementById('s3_b').value);
+
+        if (isNaN(Sn) || isNaN(a) || isNaN(b)) {
+            resultDiv.textContent = "Mohon masukkan semua nilai untuk Deret Aritmatika.";
+            return;
+        }
+
+        const term1 = 2 * a;
+        const term2 = (Sn - 1) * b;
+        const termSum = term1 + term2;
+        const nHalf = Sn / 2;
+        const nilaiakhir = nHalf * termSum;
+
+        let output = "\n";
+        output += "Deret Aritmatika\n";
+        output += "-------------------------------------\n";
+        output += `Sn = n/2(2a + (n-1)b)\n`;
+        output += `S${Sn} = ${Sn}/2(2.${a} + (${Sn}-1)(${b}))\n`;
+        output += `S${Sn} = ${nHalf}(${term1} + ${Sn - 1}.(${b}))\n`;
+        output += `S${Sn} = ${nHalf}(${term1} + ${term2})\n`;
+        output += `S${Sn} = ${nHalf}(${termSum})\n`;
+        output += `S${Sn} = ${nilaiakhir}\n`;
+        output += "\n";
+        output += `Jadi, Jumlah ${Sn} suku pertamanya adalah ${nilaiakhir}.\n`;
+
+        resultDiv.textContent = output;
+    }
+
+    // Event listener for U2 labels
+    document.getElementById('u2_info1').addEventListener('input', function() {
+        document.getElementById('label_u2_1').textContent = this.value || 'n';
+    });
+    document.getElementById('u2_info2').addEventListener('input', function() {
+        document.getElementById('label_u2_2').textContent = this.value || 'n';
+    });
+
+</script>
+
+</body>
+</html>
