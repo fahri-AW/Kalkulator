@@ -3,37 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penyelesai Integral Langkah-Langkah (Ungu)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Kalkulator Integral Sederhana</title>
     <style>
-        /* Custom CSS untuk MathJax dan Kontras */
-        .mjx-chtml {
-            font-size: 1.1em !important; /* Membuat ekspresi matematika lebih besar */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f7f7f7; /* Background lebih cerah */
+            color: #333;
         }
-        /* Style untuk langkah yang di-highlight (Contoh: untuk menunjukkan bagian yang berubah) */
-        .highlight-change {
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #ffffff;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .menu-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .menu-table th, .menu-table td {
+            border: 1px solid #bdc3c7;
+            padding: 12px;
+        }
+        .menu-table th {
+            background-color: #3498db; /* Warna biru */
+            color: white;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            color: #6a0dad; /* Warna ungu yang menonjol */
+            color: #2c3e50;
+        }
+        .input-group input[type="number"], .input-group input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        button {
+            background-color: #2ecc71; /* Warna hijau */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #3498db;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: Consolas, monospace;
+            font-size: 1.05em;
+        }
+        #calculator {
+            border-top: 2px solid #ecf0f1;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-purple-800 to-violet-500 min-h-screen text-gray-800 p-4 font-sans">
+<body>
 
-    <div class="container mx-auto">
-        <h1 class="text-3xl font-extrabold text-white text-center my-6">➗ Integral Solver (Langkah Lengkap)</h1>
+<div class="container">
+    <h2>Kalkulator Integral Sederhana</h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+    <table class="menu-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Menu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Integral Tak Tentu Sederhana ($ \int ax^n dx $)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Integral Tentu Sederhana ($ \int_b^a ax^n dx $)</td>
+            </tr>
+        </tbody>
+    </table>
 
-            <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-2xl h-fit">
-                <h2 class="text-xl font-semibold mb-4 text-purple-700">✍️ Input Integral</h2>
+    <div class="input-group">
+        <label for="pilih">Pilih menu :</label>
+        <input type="number" id="pilih" min="1" max="2" placeholder="Masukkan 1 atau 2">
+        <button onclick="showCalculator()">Pilih</button>
+    </div>
 
-                <label for="integral-input" class="block text-sm font-medium text-gray-700 mb-1">Masukkan LaTeX atau Teks:</label>
-                <textarea id="integral-input" rows="3" class="w-full p-3 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 font-mono text-base" placeholder="\int x^2 \sin x \, dx"></textarea>
+    <div id="calculator" class="hidden">
+        
+        <div id="integral1" class="hidden">
+            <h3>Integral Tak Tentu ($ \int ax^n dx $)</h3>
+            <p>Masukkan fungsi dalam bentuk $ax^n$. (Contoh: $3x^2$)</p>
+            <div class="input-group"><label for="i1_a">Koefisien (a):</label><input type="number" id="i1_a" value="4"></div>
+            <div class="input-group"><label for="i1_n">Pangkat (n):</label><input type="number" id="i1_n" value="3"></div>
+            <button onclick="integralTakTentu()">Hitung</button>
+        </div>
 
-                <div class="mt-4">
-                    <label for="method-select" class="block text-sm font-medium text-gray-700 mb-1">Pilih Metode:</label>
-                    <select id="method-select" class="w-full p-3 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 bg-white">
+        <div id="integral2" class="hidden">
+            <h3>Integral Tentu ($ \int_b^a ax^n dx $)</h3>
+            <p>Masukkan fungsi dalam bentuk $ax^n$ dan batas atas/bawah.</p>
+            <div class="input-group"><label for="i2_a_coeff">Koefisien (a):</label><input type="number" id="i2_a_coeff" value="6"></div>
+            <div class="input-group"><label for="i2_n_power">Pangkat (n):</label><input type="number" id="i2_n_power" value="2"></div>
+            <div class="input-group"><label for="i2_batas_atas">Batas Atas (a):</label><input type="number" id="i2_batas_atas" value="2"></div>
+            <div class="input-group"><label for="i2_batas_bawah">Batas Bawah (b):</label><input type="number" id="i2_batas_bawah" value="1"></div>
+            <button onclick="integralTentu()">Hitung</button>
+        </div>
+
+        <div class="input-group" style="margin-top: 20px;">
+            <button onclick="resetMenu()">Kembali ke Menu</button>
+        </div>
+    </div>
+
+    <div class="result" id="result">Hasil Perhitungan akan ditampilkan di sini.</div>
+</div>
+
+<script>
+    // --- Global Variables ---
+    const calculatorDiv = document.getElementById('calculator');
+    const resultDiv = document.getElementById('result');
+    const pilihInput = document.getElementById('pilih');
+    const menuDivs = {
+        '1': document.getElementById('integral1'),
+        '2': document.getElementById('integral2')
+    };
+
+    // --- Helper Functions ---
+
+    /**
+     * Menampilkan menu kalkulator yang dipilih dan menyembunyikan yang lain.
+     */
+    function showCalculator() {
+        const pilih = pilihInput.value.trim();
+        resultDiv.textContent = "Hasil Perhitungan akan ditampilkan di sini.";
+
+        // Hide all calculator divs
+        Object.values(menuDivs).forEach(div => div.classList.add('hidden'));
+
+        if (pilih in menuDivs) {
+            calculatorDiv.classList.remove('hidden');
+            menuDivs[pilih].classList.remove('hidden');
+            document.getElementById('pilih').disabled = true; // Disable input after selection
+        } else {
+            calculatorDiv.classList.add('hidden');
+            resultDiv.textContent = "Menu tidak ada. Silakan masukkan 1 atau 2.";
+            document.getElementById('pilih').disabled = false;
+        }
+    }
+
+    /**
+     * Mengembalikan tampilan ke menu utama.
+     */
+    function resetMenu() {
+        calculatorDiv.classList.add('hidden');
+        pilihInput.value = '';
+        document.getElementById('pilih').disabled = false;
+        resultDiv.textContent = "Hasil Perhitungan akan ditampilkan di sini.";
+        // Hide all calculator divs again
+        Object.values(menuDivs).forEach(div => div.classList.add('hidden'));
+    }
+
+    // --- Calculator Functions (Integral Logic) ---
+
+    // Menu 1: Integral Tak Tentu ( \int ax^n dx )
+    function integralTakTentu() {
+        const a = parseFloat(document.getElementById('i1_a').value);
+        const n = parseFloat(document.getElementById('i1_n').value);
+
+        if (isNaN(a) || isNaN(n)) {
+            resultDiv.textContent = "Mohon masukkan nilai Koefisien (a) dan Pangkat (n) yang valid.";
+            return;
+        }
+
+        if (n === -1) {
+            resultDiv.textContent = "Perhitungan ini tidak mendukung kasus n = -1 (Integral ln). Silakan coba kasus lain.";
+            return;
+        }
+
+        // Rumus: \int ax^n dx = \frac{a}{n+1} x^{n+1} + C
+        const n_plus_1 = n + 1;
+        const new_coeff = a / n_plus_1;
+
+        // Pembulatan untuk hasil yang lebih rapi
+        const hasil_coeff = Math.round(new_coeff * 1000) / 1000;
+        const hasil_power = n_plus_1;
+
+        let output = "Integral Tak Tentu\n";
+        output += "-------------------------------------\n";
+        output += `Soal: \\int ${a}x^${n} dx\n`;
+        output += `Rumus: \\int ax^n dx = \\frac{a}{n+1} x^{n+1} + C\n\n`;
+        
+        output += `Langkah 1: Terapkan rumus\n`;
+        output += `   = \\frac{${a}}{${n}+1} x^{${n}+1} + C\n`;
+        output += `   = \\frac{${a}}{${n_plus_1}} x^{${n_plus_1}} + C\n\n`;
+        
+        output += `Langkah 2: Sederhanakan Koefisien\n`;
+        
+        // Menangani pecahan sederhana
+        let coeff_display;
+        if (new_coeff === Math.floor(new_coeff)) {
+            coeff_display = new_coeff;
+        } else {
+            coeff_display = `${a}/${n_plus_1}`;
+            // Coba konversi ke float yang sudah dibulatkan
+            if (new_coeff !== hasil_coeff) {
+                coeff_display += ` (atau sekitar ${hasil_coeff})`;
+            }
+        }
+
+        output += `   = ${coeff_display} x^{${hasil_power}} + C\n\n`;
+        output += `Hasil Akhir:\n`;
+        output += `${coeff_display}x^${hasil_power} + C\n`;
+
+        resultDiv.textContent = output;
+    }
+
+    // Menu 2: Integral Tentu ( \int_b^a ax^n dx )
+    function integralTentu() {
+        const a = parseFloat(document.getElementById('i2_a_coeff').value);
+        const n = parseFloat(document.getElementById('i2_n_power').value);
+        const batas_atas = parseFloat(document.getElementById('i2_batas_atas').value);
+        const batas_bawah = parseFloat(document.getElementById('i2_batas_bawah').value);
+
+        if (isNaN(a) || isNaN(n) || isNaN(batas_atas) || isNaN(batas_bawah)) {
+            resultDiv.textContent = "Mohon masukkan semua nilai untuk Integral Tentu yang valid.";
+            return;
+        }
+
+        if (n === -1) {
+            resultDiv.textContent = "Perhitungan ini tidak mendukung kasus n = -1 (Integral ln). Silakan coba kasus lain.";
+            return;
+        }
+        
+        // Antiturunan (F(x))
+        const n_plus_1 = n + 1;
+        const new_coeff = a / n_plus_1;
+
+        // Hitung F(batas_atas) dan F(batas_bawah)
+        const F_atas = new_coeff * Math.pow(batas_atas, n_plus_1);
+        const F_bawah = new_coeff * Math.pow(batas_bawah, n_plus_1);
+        
+        const hasil_akhir = F_atas - F_bawah;
+
+        const hasil_coeff = Math.round(new_coeff * 1000) / 1000;
+        const hasil_power = n_plus_1;
+
+        let coeff_display = new_coeff === Math.floor(new_coeff) ? new_coeff : `${a}/${n_plus_1}`;
+
+
+        let output = "Integral Tentu\n";
+        output += "-------------------------------------\n";
+        output += `Soal: \\int_${batas_bawah}^${batas_atas} ${a}x^${n} dx\n`;
+        output += `Rumus: \\int_b^a f(x) dx = F(a) - F(b)\n\n`;
+
+        output += `Langkah 1: Cari fungsi Antiturunan F(x)\n`;
+        output += `   F(x) = \\frac{${a}}{${n_plus_1}} x^{${n_plus_1}}\n`;
+        output += `   F(x) = ${coeff_display}x^${hasil_power}\n\n`;
+        
+        output += `Langkah 2: Hitung F(${batas_atas}) dan F(${batas_bawah})\n`;
+        
+        // F(atas)
+        output += `   F(${batas_atas}) = ${coeff_display}(${batas_atas})^${hasil_power}\n`;
+        output += `           = ${new_coeff * Math.pow(batas_atas, n_plus_1).toFixed(4)}\n\n`;
+
+        // F(bawah)
+        output += `   F(${batas_bawah}) = ${coeff_display}(${batas_bawah})^${hasil_power}\n`;
+        output += `           = ${new_coeff * Math.pow(batas_bawah, n_plus_1).toFixed(4)}\n\n`;
+
+        output += `Langkah 3: Hitung F(${batas_atas}) - F(${batas_bawah})\n`;
+        output += `   = ${F_atas.toFixed(4)} - ${F_bawah.toFixed(4)}\n`;
+        output += `   = ${hasil_akhir.toFixed(4)}\n\n`;
+        
+        output += `Hasil Akhir: ${hasil_akhir.toFixed(4)}\n`;
+
+        resultDiv.textContent = output;
+    }
+
+    // Event listeners to update button/label text if necessary, though not strictly needed here
+    // document.getElementById('i2_batas_atas').addEventListener('input', function() {});
+    // document.getElementById('i2_batas_bawah').addEventListener('input', function() {});
+    
+</script>
+
+</body>
+</html>
                         <option value="auto">Auto (Direkomendasikan)</option>
                         <option value="parts">Integration by Parts</option>
                         <option value="substitution">Substitution (u-sub)</option>
